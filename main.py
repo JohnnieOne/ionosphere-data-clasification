@@ -1,20 +1,23 @@
-# SBURATURA GEORGE-ADRIAN, 423B
-# PROIECT ISIA - ionosphere
+# SBURATURA GEORGE-ADRIAN
+# PROJECT - ionosphere
 
 from sklearn import metrics, ensemble
 import numpy as np
 import pandas as pd
 
 data = pd.read_csv('ionosphere.data')
-data_backup = data  # salvam datele intr-o variabila de back-up in caz ca mai este nevoie de ele
+data_backup = data  # save the data in a back-up variable in case we need them later
 etichete_l = data["eticheta"].values.tolist()
 for i in range(len(etichete_l)):
-    # se convertesc datele din etichete din good/bad in 1, respectiv 0 intrucat este mult mai simplu de lucrat
+    # for simplicity we convert good/bad to 1/0
     if etichete_l[i] == 'g':
-        etichete_l[i] = 1  # eticheta good primeste valoarea 1
+        etichete_l[i] = 1  # good will receive the value 1
     if etichete_l[i] == 'b':
-        etichete_l[i] = 0  # eticheta good primeste valoarea 0
+        etichete_l[i] = 0  # bad will receive the value 1
 etichete = np.array(etichete_l)
+# split the data into learning data and test data
+
+
 etichete_train = etichete[88:]
 etichete_test = etichete[:88]
 
@@ -34,7 +37,8 @@ proportie_bad_test = (bad_test / len(etichete_test)) * 100
 date_train = date[88:][:]
 date_test = date[:88][:]
 
-clf = ensemble.RandomForestClassifier(n_estimators=14, max_samples=0.85, max_features=0.5, random_state=15000)
+# we use sklearn library for the clasification algorithm
+clf = ensemble.RandomForestClassifier(n_estimators=14, max_samples=0.85, max_features=0.5, random_state=15000) # we use diferent values for the parameters in order to see who has the best accuracy
 clf.fit(date_train, etichete_train)
 predictii = clf.predict(date_test)
 
